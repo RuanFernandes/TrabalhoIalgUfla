@@ -21,16 +21,19 @@ int lerDadosDoArquivo(Registro dados[], int tamanho) {
     int contador = 0;
 
     if (arquivo.is_open()) {
-        while (!arquivo.eof() && contador < tamanho) {
-            arquivo.read(reinterpret_cast<char*>(&dados[contador]), sizeof(Registro));
+        while (contador < tamanho && arquivo.read(reinterpret_cast<char*>(&dados[contador]), sizeof(Registro))) {
             contador++;
         }
 
         arquivo.close();
     }
 
+    cout << "Registros lidos do arquivo: " << contador << endl; // Adição para depuração
+
     return contador;
 }
+
+
 
 void escreverDadosNoArquivo(const Registro dados[], int tamanho) {
     ofstream arquivo(arquivoDados, ios::binary);
@@ -69,6 +72,7 @@ void imprimirRegistros(const Registro dados[], int tamanho) {
              << ", Popularidade: " << dados[i].popularidade << endl;
     }
 }
+
 
 void adicionarRegistro(Registro dados[], int& tamanhoAtual) {
     if (tamanhoAtual < tamanhoMaximo) {
@@ -116,7 +120,7 @@ void importarCSV(Registro dados[], int& tamanhoAtual) {
     string cabecalhos;
     getline(arquivoCSV, cabecalhos);
 
-    while (!arquivoCSV.eof() && tamanhoAtual < tamanhoMaximo) {
+    while (arquivoCSV.good() && tamanhoAtual < tamanhoMaximo) {
         char delim;
         arquivoCSV >> dados[tamanhoAtual].identificador;
         arquivoCSV >> delim; // Ler o separador ;
@@ -129,11 +133,14 @@ void importarCSV(Registro dados[], int& tamanhoAtual) {
         tamanhoAtual++;
     }
 
-    cout << "Importacao concluida.\n";
+    if (arquivoCSV.eof()) {
+        cout << "Importacao concluida.\n";
+    } else {
+        cout << "Erro durante a importacao. Verifique o formato do arquivo CSV.\n";
+    }
 
     arquivoCSV.close();
 }
-
 
 int main() {
     // Verifica se o arquivo binário existe, caso contrário, cria um novo
