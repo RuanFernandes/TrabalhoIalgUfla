@@ -1,0 +1,31 @@
+﻿identificador;nome;criador;anoLancamento;popularidade
+1;Python;Guido van Rossum;1991;8.5
+2;Java;James Gosling;1995;9.0
+3;C++;Bjarne Stroustrup;1983;7.8
+4;JavaScript;Brendan Eich;1995;9.5
+5;C#;Anders Hejlsberg;2000;7.0
+6;Ruby;Yukihiro Matsumoto;1995;7.2
+7;Swift;Chris Lattner;2014;8.0
+8;PHP;Rasmus Lerdorf;1995;6.5
+9;HTML;Tim Berners Lee;1993;9.8
+10;CSS;Hakon Lie;1996;9.0
+11;Go;Robert Griesemer;2009;8.2
+12;Kotlin;JetBrains;2011;7.5
+13;TypeScript;Microsoft;2012;8.7
+14;Rust;Mozilla;2010;8.3
+15;MATLAB;MathWorks;1984;6.8
+16;Scala;Martin Odersky;2003;7.3
+17;R;Ross Ihaka;1993;6.0
+18;Shell;Stephen R Bourne;1979;5.5
+19;Perl;Larry Wall;1987;6.5
+20;Dart;Google;2011;6.2
+21;Julia;Jeff Bezanson;2012;7.8
+22;Groovy;James Strachan;2003;6.0
+23;Lua;Roberto Ierusalimschy;1993;5.8
+24;Cobol;Grace Hopper;1959;4.5
+25;Lisp;John McCarthy;1958;5.0
+26;Ada;Jean Ichbiah;1980;4.2
+27;Fortran;John Backus;1957;4.8
+28;Prolog;Alain Colmerauer;1972;4.0
+29;VHDL;DARPA;1985;3.8
+30;Pascal;Niklaus Wirth;1970;4.7
