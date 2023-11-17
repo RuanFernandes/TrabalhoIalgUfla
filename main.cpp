@@ -16,30 +16,54 @@ struct Registro {
     float popularidade;
 };
 
+// Função para serializar um Registro em uma string
+string serializarRegistro(const Registro& reg) {
+    ostringstream stream;
+    stream << reg.identificador << ';'
+           << reg.nome << ';'
+           << reg.inventor << ';'
+           << reg.anoLancamento << ';'
+           << reg.popularidade;
+    return stream.str();
+}
+
+// Função para desserializar uma string em um Registro
+Registro desserializarRegistro(const string& str) {
+    Registro reg;
+    istringstream stream(str);
+    stream >> reg.identificador;
+    stream.ignore(); // Ignora o separador ;
+    getline(stream, reg.nome, ';');
+    getline(stream, reg.inventor, ';');
+    stream >> reg.anoLancamento;
+    stream.ignore(); // Ignora o separador ;
+    stream >> reg.popularidade;
+    return reg;
+}
+
 int lerDadosDoArquivo(Registro dados[], int tamanho) {
-    ifstream arquivo(arquivoDados, ios::binary);
+    ifstream arquivo(arquivoDados);
+
     int contador = 0;
+    string linha;
 
-    if (arquivo.is_open()) {
-        while (contador < tamanho && arquivo.read(reinterpret_cast<char*>(&dados[contador]), sizeof(Registro))) {
-            contador++;
-        }
-
-        arquivo.close();
+    while (contador < tamanho && getline(arquivo, linha)) {
+        dados[contador] = desserializarRegistro(linha);
+        contador++;
     }
 
-    cout << "Registros lidos do arquivo: " << contador << endl; // Adição para depuração
+    arquivo.close();
+
+    cout << "Registros lidos do arquivo: " << contador << endl;
 
     return contador;
 }
 
-
-
 void escreverDadosNoArquivo(const Registro dados[], int tamanho) {
-    ofstream arquivo(arquivoDados, ios::binary);
+    ofstream arquivo(arquivoDados);
 
     for (int i = 0; i < tamanho; i++) {
-        arquivo.write(reinterpret_cast<const char*>(&dados[i]), sizeof(Registro));
+        arquivo << serializarRegistro(dados[i]) << endl;
     }
 
     arquivo.close();
@@ -65,6 +89,8 @@ int buscarPorNome(const Registro dados[], int tamanho, const string& nomeBusca) 
 }
 
 void imprimirRegistros(const Registro dados[], int tamanho) {
+    cout << endl << endl << endl << sizeof(Registro) << endl << endl << endl;
+
     for (int i = 0; i < tamanho; i++) {
         cout << "ID: " << dados[i].identificador << ", Nome: " << dados[i].nome
              << ", Inventor: " << dados[i].inventor
@@ -78,7 +104,7 @@ void adicionarRegistro(Registro dados[], int& tamanhoAtual) {
     if (tamanhoAtual < tamanhoMaximo) {
         cout << "Digite os dados do novo registro:\n";
         cout << "Nome: ";
-        cin.ignore();
+        cin.ignore();  // Limpa o buffer do teclado
         getline(cin, dados[tamanhoAtual].nome);
         cout << "Inventor: ";
         getline(cin, dados[tamanhoAtual].inventor);
@@ -94,6 +120,8 @@ void adicionarRegistro(Registro dados[], int& tamanhoAtual) {
         cout << "Limite de registros atingido.\n";
     }
 }
+
+
 
 void importarCSV(Registro dados[], int& tamanhoAtual) {
     // Nome do arquivo binário
